@@ -1,123 +1,145 @@
-## Hi, I'm Don Mangu
+## Live job data from company career pages, for sales, recruiting and AI agents
 
-I build small data tools on [Apify](https://apify.com/conserving_celerytop) that read public web data live, at the moment you run them. Most of them read open jobs from company career pages. One reads the technologies behind a website.
+See which companies are hiring, for which team, and what changed since last week. Each tool below reads public job boards or homepages at the moment you run it, and you pay per result.
 
-You pay per result, not per month. None of them need a login, an API key for the target site, or personal data.
+All tools run on [Apify](https://apify.com/conserving_celerytop). No login to any job board, no personal data, no monthly fee. Every block below is copy-paste ready once you set `APIFY_TOKEN` (Apify Console, Settings, API & Integrations).
 
+- [What's new](#whats-new)
 - [Sales and hiring signals](#sales-and-hiring-signals)
 - [Recruiting and job search](#recruiting-and-job-search)
-- [Company and public data](#company-and-public-data)
+- [Company data](#company-data)
 - [Use them from AI agents](#use-them-from-ai-agents)
-- [How pricing works](#how-pricing-works)
+- [Code examples](#code-examples)
+- [Prices](#prices)
 - [What data these tools touch](#what-data-these-tools-touch)
+
+---
+
+## What's new
+
+- **Sep 26, 2026.** One Actor per job board: Greenhouse, Lever, Ashby and Workday Jobs API. Also new: Website Tech Stack Detector.
+- **Sep 25, 2026.** Tech Jobs Search: one search across 574 tech, AI and remote-first companies. Live Jobs HTTP API: jobs in one GET request.
+- **Coming soon.** Four free, MIT-licensed agent skills for account research, hiring signals, competitor hiring and job search. Company Hiring Signals: one row per company with a 0 to 100 hiring score, for Clay or a sheet ($0.045 per company).
 
 ---
 
 ## Sales and hiring signals
 
-Which of your accounts are hiring, for which team, and what changed since last week.
+**[ATS Jobs API](https://apify.com/conserving_celerytop/live-career-page-jobs-api)**
+Know which of your accounts are hiring, and for which team, before you reach out. Paste company names, websites or job board links. Get every open job, or one summary row per company with jobs posted in the last 7 and 30 days. Reads Greenhouse, Lever, Ashby, Workday and 18 more job boards. Put it on a schedule to get only new jobs in Slack.
+Price: see the Store page.
 
-**[ATS Jobs API: Greenhouse & Lever Jobs, Ashby & Career Pages](https://apify.com/conserving_celerytop/live-career-page-jobs-api)**
-Every open job at the companies you list, read live from their own job boards: Greenhouse, Lever, Ashby, Workday, Eightfold, Workable, Personio, Teamtailor, Recruitee, JOIN, Gem, Freshteam and 10 more (22 in all). Paste company names, websites or board links. It can return one summary row per company (open jobs, jobs posted in the last 7 and 30 days, top departments) or every job. Schedule it with "Only new jobs" to send new-job alerts to Slack.
-Price: $0.01 per company, up to 1,000 jobs.
+```bash
+curl -X POST "https://api.apify.com/v2/acts/conserving_celerytop~live-career-page-jobs-api/run-sync-get-dataset-items?maxTotalChargeUsd=0.10" \
+  -H "Authorization: Bearer $APIFY_TOKEN" -H "Content-Type: application/json" \
+  -d '{"companies": ["https://boards.greenhouse.io/stripe", "https://jobs.lever.co/palantir"], "postedSince": "7 days"}'
+```
 
-**[Live Jobs HTTP API: Greenhouse, Lever, Ashby, Workday](https://apify.com/conserving_celerytop/live-jobs-http-api)**
-The same job data as ATS Jobs API, in one GET or POST request with the jobs in the response. Made for scripts, Clay and no-code tools that want an answer in one call instead of a run and a dataset.
-Price: $0.01 per company, the same event prices as ATS Jobs API, plus Apify platform usage.
+**[Live Jobs HTTP API](https://apify.com/conserving_celerytop/live-jobs-http-api)**
+Get a company's open jobs in one request, with the jobs in the response. Made for scripts, Clay and no-code tools. Same data as ATS Jobs API.
+Price: see the Store page.
+
+```bash
+curl -H "Authorization: Bearer $APIFY_TOKEN" \
+  "https://conserving-celerytop--live-jobs-http-api.apify.actor/?companies=stripe,linear.app&postedSince=7%20days"
+```
 
 ---
 
 ## Recruiting and job search
 
-Find open roles, or track the career pages of the companies you care about.
-
-**[Tech Jobs Search: Startup, AI & Remote Jobs](https://apify.com/conserving_celerytop/tech-jobs-search)**
-Search the open jobs of 574 tech, AI, remote-first and European companies by title, place, remote, seniority, salary and date. The jobs are read live from their career pages when you run it. Companies with no match cost nothing.
+**[Tech Jobs Search](https://apify.com/conserving_celerytop/tech-jobs-search)**
+Find fresh jobs at 574 tech, AI, remote-first and European companies in one search. Filter by title, place, remote, seniority, salary and date. Every result was open when you ran it. Companies with no match cost nothing.
 Price: $1 per 1,000 matching jobs.
 
-**[Greenhouse Jobs API: $0.045/Company, No Login](https://apify.com/conserving_celerytop/greenhouse-jobs-api)**
-Every open job on a company's Greenhouse board, including roles that have been open a long time. Paste board links, names or websites. Title, department, location, pay ranges and apply link.
-Price: $0.045 per company, up to 1,000 jobs.
+```bash
+curl -X POST "https://api.apify.com/v2/acts/conserving_celerytop~tech-jobs-search/run-sync-get-dataset-items?maxTotalChargeUsd=0.10" \
+  -H "Authorization: Bearer $APIFY_TOKEN" -H "Content-Type: application/json" \
+  -d '{"titleIncludes": ["product designer"], "location": "Berlin", "postedSince": "30 days", "maxResults": 100}'
+```
 
-**[Lever Jobs API: $0.045/Company, No Login](https://apify.com/conserving_celerytop/lever-jobs-api)**
-Every open job on a company's Lever board. Title, team, location, job type, salary and apply link.
-Price: $0.045 per company, up to 1,000 jobs.
+**Track one job board.** If all your companies use the same job board, these Actors read it directly. Each returns title, team, location and the apply link, plus pay where the board shows it. Each can send new-job alerts on a schedule.
 
-**[Ashby Jobs API: $0.045/Company, No Login](https://apify.com/conserving_celerytop/ashby-jobs-api)**
-Every open job on a company's Ashby board. Title, department, location, salary, job type and apply link.
-Price: $0.045 per company, up to 1,000 jobs.
+| Actor | Paste | Price |
+|---|---|---|
+| [Greenhouse Jobs API](https://apify.com/conserving_celerytop/greenhouse-jobs-api) | Greenhouse board links, names or websites | $0.045 per company, up to 1,000 jobs |
+| [Lever Jobs API](https://apify.com/conserving_celerytop/lever-jobs-api) | Lever board links | $0.045 per company, up to 1,000 jobs |
+| [Ashby Jobs API](https://apify.com/conserving_celerytop/ashby-jobs-api) | Ashby board links | $0.045 per company, up to 1,000 jobs |
+| [Workday Jobs API](https://apify.com/conserving_celerytop/workday-jobs-api) | Workday career site links | $0.05 per company, up to 1,000 jobs |
 
-**[Workday Jobs API: $0.05/Company, No Login](https://apify.com/conserving_celerytop/workday-jobs-api)**
-Every open job on a company's Workday career site, where the employer's robots.txt allows it. Paste career site links. Title, department, location, job type and apply link.
-Price: $0.05 per company, up to 1,000 jobs. Full descriptions are optional, $0.01 per 200 jobs.
+```bash
+curl -X POST "https://api.apify.com/v2/acts/conserving_celerytop~greenhouse-jobs-api/run-sync-get-dataset-items?maxTotalChargeUsd=0.20" \
+  -H "Authorization: Bearer $APIFY_TOKEN" -H "Content-Type: application/json" \
+  -d '{"companies": ["https://boards.greenhouse.io/dropbox", "https://job-boards.greenhouse.io/duolingo"]}'
+```
 
-The four single-board Actors can be scheduled for new-job alerts. If your list mixes several job boards, ATS Jobs API reads all four of these boards plus 18 more at $0.01 per company.
+Swap `greenhouse-jobs-api` for `lever-jobs-api`, `ashby-jobs-api` or `workday-jobs-api`, with links from that board.
 
 ---
 
-## Company and public data
+## Company data
 
-**[Website Tech Stack Detector: CMS & Analytics, No Login](https://apify.com/conserving_celerytop/website-tech-stack-detector)**
-Give it a list of websites and it reports the CMS, ecommerce platform, analytics, frameworks, CDN, hosting and payment tools it finds on each homepage. One homepage request per site, robots.txt respected, 7,600+ open fingerprints. A result means a tool's tag was seen on the homepage. Tools that live behind a login, such as most CRMs, often do not show.
+**[Website Tech Stack Detector](https://apify.com/conserving_celerytop/website-tech-stack-detector)**
+See what a list of websites runs before you pitch them: CMS, ecommerce platform, analytics, frameworks, CDN, hosting and payments. One homepage request per site. A result means the tool's tag was on the homepage. Tools behind a login, like most CRMs, often do not show.
 Price: $2 per 1,000 websites.
+
+```bash
+curl -X POST "https://api.apify.com/v2/acts/conserving_celerytop~website-tech-stack-detector/run-sync-get-dataset-items?maxTotalChargeUsd=0.10" \
+  -H "Authorization: Bearer $APIFY_TOKEN" -H "Content-Type: application/json" \
+  -d '{"websites": ["pypi.org", "crates.io"]}'
+```
 
 ---
 
 ## Use them from AI agents
 
-**Apify MCP server.** Any agent that speaks MCP (Claude, Cursor, VS Code, Codex and others) can call these Actors as tools through Apify's hosted MCP server. Add the Actors you want to the URL, for example:
+Any agent that speaks MCP (Claude, Cursor, VS Code, Codex and others) can call these Actors as tools through Apify's hosted MCP server. Add this URL as an MCP server:
 
 ```
-https://mcp.apify.com/?tools=actors,docs,conserving_celerytop/live-career-page-jobs-api,conserving_celerytop/website-tech-stack-detector
+https://mcp.apify.com/?tools=actors,docs,conserving_celerytop/live-career-page-jobs-api,conserving_celerytop/tech-jobs-search,conserving_celerytop/website-tech-stack-detector
 ```
 
-Sign in with OAuth, or send your Apify token in an `Authorization: Bearer` header. Do not put a token in the URL. Setup guide: [docs.apify.com/platform/integrations/mcp](https://docs.apify.com/platform/integrations/mcp).
+Sign in with OAuth, or send your Apify token in an `Authorization: Bearer` header. Never put a token in the URL. Setup guide: [docs.apify.com/platform/integrations/mcp](https://docs.apify.com/platform/integrations/mcp).
 
-**Agent skills.** A free, MIT-licensed set of agent skills built on these Actors is coming soon.
+Agent skills built on these Actors are coming soon.
 
 ---
 
-## How pricing works
+## Code examples
 
-All of these Actors use Apify's pay per event model. You pay for what the run delivers, from your own Apify account, and there is no subscription to these tools. Apify's free plan includes a monthly usage credit, which covers small tests.
+Python, curl and MCP setup for Claude, Cursor, VS Code and ChatGPT. MIT licensed.
 
-The main events:
+- [ats-jobs-api-python](https://github.com/donmangudata-ops/ats-jobs-api-python): every open job at the companies you list, from Python.
+- [tech-jobs-search-api](https://github.com/donmangudata-ops/tech-jobs-search-api): search AI, startup and remote tech jobs from Python.
+- [live-jobs-http-api-examples](https://github.com/donmangudata-ops/live-jobs-http-api-examples): company jobs in one GET request.
 
-- **Company lookup** (job Actors): charged once per company whose board was contacted. It includes up to 1,000 jobs. It is also charged when a board is empty, not found or fails, because the request was still made.
-- **Extra 1,000 jobs**: only when one company has more than 1,000 open jobs.
-- **Repeat monitor check**: $0.002 per later check of one company, per 1,000 open jobs on its board or part of them.
-- **Description block**: $0.01 per 200 job descriptions, only on boards that need an extra request for them (Workday, Eightfold, JazzHR, Paylocity, Freshteam, JOIN). Other boards include descriptions at no extra cost.
-- **Matching job** (Tech Jobs Search): $0.001 per job that matched your search.
-- **Website analyzed** (Tech Stack Detector): $0.002 per homepage that loaded and was checked.
-- **Actor start**: $0.00005 per GB of memory, once per run.
+---
 
-Examples at free-plan prices:
+## Prices
 
-- Summaries for 200 target accounts with ATS Jobs API: 200 x $0.01 = **$2.00**.
-- A weekly new-jobs check on the same 200 accounts, each with under 1,000 open jobs: 200 x $0.002 = **$0.40** a week.
-- A Tech Jobs Search that returns 350 matching jobs: **$0.35**.
-- 50 companies on the Greenhouse Jobs API: 50 x $0.045 = **$2.25**.
-- 20 Workday companies with descriptions for 600 jobs: $1.00 + 3 x $0.01 = **$1.03**.
-- The tech stack of 5,000 websites: **$10.00**.
+You pay per event from your own Apify account. There is no subscription. Apify's free plan includes a monthly credit that covers small tests. Prices are lower on paid Apify plans.
 
-Prices are lower on paid Apify plans (5% to 20% less on the main event). Each Store page shows the current prices, and the public API returns them without a token, for example `https://api.apify.com/v2/acts/conserving_celerytop~live-career-page-jobs-api`. The prices here were checked on September 26, 2026.
+- **Per company** (job Actors): once per company whose board was read, up to 1,000 jobs. Also charged when a board is empty or not found, because the request was still made.
+- **Per matching job** (Tech Jobs Search): only jobs that matched your search.
+- **Per website** (Tech Stack Detector): only homepages that loaded.
+- **Later checks** of the same company for new jobs cost much less than the first one.
+
+Every Store page shows the current prices. `maxTotalChargeUsd` in the blocks above caps what a run can cost.
 
 ---
 
 ## What data these tools touch
 
-- **Public data only.** Job boards and career pages that companies publish for anyone to read, and the public homepage of a website.
-- **No personal data.** The Actors return jobs and technologies. They do not look up or collect data about people, such as recruiters or hiring managers. Job descriptions come through as the employer wrote them.
-- **robots.txt respected.** Each source is read only where the site's robots.txt allows it. Where an employer can change its own robots.txt, as on Workday, it is read on every run and a site that disallows the path is skipped with a note in the output.
+- **Public data only.** Job boards and career pages that companies publish for anyone, and the public homepage of a website.
+- **No personal data.** The Actors return jobs and technologies. They do not collect data about people, such as recruiters or hiring managers.
+- **robots.txt respected.** A site that disallows the path is skipped, with a note in the output.
 - **No login.** Nothing runs behind a sign-in, a paywall or a CAPTCHA.
-- **Light load.** One request per board or homepage where the source allows it, instead of crawling whole sites.
+- **Light load.** One request per board or homepage where the source allows it.
 
-You are responsible for how you use the data you collect, including the terms of the sites involved and the laws where you work. If you run a board or site and want it handled differently, open an issue on the Actor's page on Apify.
+You are responsible for how you use the data, including the terms of the sites involved and the laws where you work. If you run a board or site and want it handled differently, open an issue on the Actor's Apify page.
 
 ---
 
-## Contact
+Questions, bugs or a job board I do not cover yet: open an issue on the Actor's Apify page.
 
-Questions, bugs or a board I do not cover yet: open an issue on the Actor's Apify page.
-
-All Actors: [apify.com/conserving_celerytop](https://apify.com/conserving_celerytop)
+If one of these saved you time, star the code example you used, or follow this account for the next tool.
