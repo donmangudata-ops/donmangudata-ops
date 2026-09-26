@@ -19,7 +19,7 @@ All tools run on [Apify](https://apify.com/conserving_celerytop). No login to an
 
 - **Sep 26, 2026.** One Actor per job board: Greenhouse, Lever, Ashby and Workday Jobs API. Also new: Website Tech Stack Detector.
 - **Sep 25, 2026.** Tech Jobs Search: one search across 574 tech, AI and remote-first companies. Live Jobs HTTP API: jobs in one GET request.
-- **Coming soon.** Four free, MIT-licensed agent skills for account research, hiring signals, competitor hiring and job search. Company Hiring Signals: one row per company with a 0 to 100 hiring score, for Clay or a sheet ($0.045 per company).
+- **Coming soon.** Four free, MIT-licensed agent skills for account research, hiring signals, competitor hiring and job search. Company Hiring Signals: one row per company with a 0 to 100 hiring score, for Clay or a sheet ($0.06 per company).
 
 ---
 
@@ -30,7 +30,7 @@ Know which of your accounts are hiring, and for which team, before you reach out
 Price: see the Store page.
 
 ```bash
-curl -X POST "https://api.apify.com/v2/acts/conserving_celerytop~live-career-page-jobs-api/run-sync-get-dataset-items?maxTotalChargeUsd=0.10" \
+curl -X POST "https://api.apify.com/v2/acts/conserving_celerytop~live-career-page-jobs-api/run-sync-get-dataset-items?maxTotalChargeUsd=0.30" \
   -H "Authorization: Bearer $APIFY_TOKEN" -H "Content-Type: application/json" \
   -d '{"companies": ["https://boards.greenhouse.io/stripe", "https://jobs.lever.co/palantir"], "postedSince": "7 days"}'
 ```
@@ -50,10 +50,10 @@ curl -H "Authorization: Bearer $APIFY_TOKEN" \
 
 **[Tech Jobs Search](https://apify.com/conserving_celerytop/tech-jobs-search)**
 Find fresh jobs at 574 tech, AI, remote-first and European companies in one search. Filter by title, place, remote, seniority, salary and date. Every result was open when you ran it. Companies with no match cost nothing.
-Price: $1 per 1,000 matching jobs.
+Price: $1 per 1,000 matching jobs; $1.15 from October 11, 2026.
 
 ```bash
-curl -X POST "https://api.apify.com/v2/acts/conserving_celerytop~tech-jobs-search/run-sync-get-dataset-items?maxTotalChargeUsd=0.10" \
+curl -X POST "https://api.apify.com/v2/acts/conserving_celerytop~tech-jobs-search/run-sync-get-dataset-items?maxTotalChargeUsd=0.12" \
   -H "Authorization: Bearer $APIFY_TOKEN" -H "Content-Type: application/json" \
   -d '{"titleIncludes": ["product designer"], "location": "Berlin", "postedSince": "30 days", "maxResults": 100}'
 ```
@@ -62,13 +62,13 @@ curl -X POST "https://api.apify.com/v2/acts/conserving_celerytop~tech-jobs-searc
 
 | Actor | Paste | Price |
 |---|---|---|
-| [Greenhouse Jobs API](https://apify.com/conserving_celerytop/greenhouse-jobs-api) | Greenhouse board links, names or websites | $0.045 per company, up to 1,000 jobs |
-| [Lever Jobs API](https://apify.com/conserving_celerytop/lever-jobs-api) | Lever board links | $0.045 per company, up to 1,000 jobs |
-| [Ashby Jobs API](https://apify.com/conserving_celerytop/ashby-jobs-api) | Ashby board links | $0.045 per company, up to 1,000 jobs |
-| [Workday Jobs API](https://apify.com/conserving_celerytop/workday-jobs-api) | Workday career site links | $0.05 per company, up to 1,000 jobs |
+| [Greenhouse Jobs API](https://apify.com/conserving_celerytop/greenhouse-jobs-api) | Greenhouse board links, names or websites | $0.045 per company, up to 1,000 jobs; $0.10 from October 11, 2026 |
+| [Lever Jobs API](https://apify.com/conserving_celerytop/lever-jobs-api) | Lever board links | $0.045 per company, up to 1,000 jobs; $0.10 from October 11, 2026 |
+| [Ashby Jobs API](https://apify.com/conserving_celerytop/ashby-jobs-api) | Ashby board links | $0.045 per company, up to 1,000 jobs; $0.10 from October 11, 2026 |
+| [Workday Jobs API](https://apify.com/conserving_celerytop/workday-jobs-api) | Workday career site links | $0.05 per company, up to 1,000 jobs; $0.10 from October 11, 2026 |
 
 ```bash
-curl -X POST "https://api.apify.com/v2/acts/conserving_celerytop~greenhouse-jobs-api/run-sync-get-dataset-items?maxTotalChargeUsd=0.20" \
+curl -X POST "https://api.apify.com/v2/acts/conserving_celerytop~greenhouse-jobs-api/run-sync-get-dataset-items?maxTotalChargeUsd=0.30" \
   -H "Authorization: Bearer $APIFY_TOKEN" -H "Content-Type: application/json" \
   -d '{"companies": ["https://boards.greenhouse.io/dropbox", "https://job-boards.greenhouse.io/duolingo"]}'
 ```
@@ -117,7 +117,7 @@ Python, curl and MCP setup for Claude, Cursor, VS Code and ChatGPT. MIT licensed
 
 ## Prices
 
-You pay per event from your own Apify account. There is no subscription. Apify's free plan includes a monthly credit that covers small tests. Prices are lower on paid Apify plans.
+You pay per event from your own Apify account. There is no subscription. Apify's free plan includes a monthly credit that covers small tests. Prices are lower on the Scale and Business plans.
 
 - **Per company** (job Actors): once per company whose board was read, up to 1,000 jobs. Also charged when a board is empty or not found, because the request was still made.
 - **Per matching job** (Tech Jobs Search): only jobs that matched your search.
