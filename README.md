@@ -18,8 +18,9 @@ All tools run on [Apify](https://apify.com/conserving_celerytop). No login to an
 ## What's new
 
 - **Sep 26, 2026.** One Actor per job board: Greenhouse, Lever, Ashby and Workday Jobs API. Also new: Website Tech Stack Detector.
-- **Sep 25, 2026.** Tech Jobs Search: one search across 574 tech, AI and remote-first companies. Live Jobs HTTP API: jobs in one GET request.
-- **Coming soon.** Four free, MIT-licensed agent skills for account research, hiring signals, competitor hiring and job search. Company Hiring Signals: one row per company with a 0 to 100 hiring score, for Clay or a sheet ($0.06 per company).
+- **Sep 27, 2026.** Tech Jobs Search now covers 824 companies, with a new list of 250 venture-backed startups.
+- **Sep 25, 2026.** Tech Jobs Search: one search across tech, AI and remote-first companies. Live Jobs HTTP API: jobs in one GET request.
+- **Coming soon.** Four free, MIT-licensed agent skills for account research, hiring signals, competitor hiring and job search. Company Hiring Signals: one row per company with a 0 to 100 hiring score, for Clay or a sheet.
 
 ---
 
@@ -27,7 +28,7 @@ All tools run on [Apify](https://apify.com/conserving_celerytop). No login to an
 
 **[ATS Jobs API](https://apify.com/conserving_celerytop/live-career-page-jobs-api)**
 Know which of your accounts are hiring, and for which team, before you reach out. Paste company names, websites or job board links. Get every open job, or one summary row per company with jobs posted in the last 7 and 30 days. Reads Greenhouse, Lever, Ashby, Workday and 18 more job boards. Put it on a schedule to get only new jobs in Slack.
-Price: see the Store page.
+Price: $0.045 per company, up to 1,000 of its jobs. The Store page has the current price.
 
 ```bash
 curl -X POST "https://api.apify.com/v2/acts/conserving_celerytop~live-career-page-jobs-api/run-sync-get-dataset-items?maxTotalChargeUsd=0.30" \
@@ -37,7 +38,7 @@ curl -X POST "https://api.apify.com/v2/acts/conserving_celerytop~live-career-pag
 
 **[Live Jobs HTTP API](https://apify.com/conserving_celerytop/live-jobs-http-api)**
 Get a company's open jobs in one request, with the jobs in the response. Made for scripts, Clay and no-code tools. Same data as ATS Jobs API.
-Price: see the Store page.
+Price: $0.045 per company, up to 1,000 of its jobs, plus Apify platform usage. The Store page has the current price.
 
 ```bash
 curl -H "Authorization: Bearer $APIFY_TOKEN" \
@@ -49,8 +50,8 @@ curl -H "Authorization: Bearer $APIFY_TOKEN" \
 ## Recruiting and job search
 
 **[Tech Jobs Search](https://apify.com/conserving_celerytop/tech-jobs-search)**
-Find fresh jobs at 574 tech, AI, remote-first and European companies in one search. Filter by title, place, remote, seniority, salary and date. Every result was open when you ran it. Companies with no match cost nothing.
-Price: $1 per 1,000 matching jobs; $1.15 from October 11, 2026.
+Find fresh jobs at 824 startups and tech, AI, remote-first and European companies in one search. Filter by title, place, remote, seniority, salary and date. Every result was open when you ran it. Companies with no match cost nothing.
+Price: $1.15 per 1,000 matching jobs, with no usage fees.
 
 ```bash
 curl -X POST "https://api.apify.com/v2/acts/conserving_celerytop~tech-jobs-search/run-sync-get-dataset-items?maxTotalChargeUsd=0.12" \
@@ -62,10 +63,10 @@ curl -X POST "https://api.apify.com/v2/acts/conserving_celerytop~tech-jobs-searc
 
 | Actor | Paste | Price |
 |---|---|---|
-| [Greenhouse Jobs API](https://apify.com/conserving_celerytop/greenhouse-jobs-api) | Greenhouse board links, names or websites | $0.045 per company, up to 1,000 jobs; $0.10 from October 11, 2026 |
-| [Lever Jobs API](https://apify.com/conserving_celerytop/lever-jobs-api) | Lever board links | $0.045 per company, up to 1,000 jobs; $0.10 from October 11, 2026 |
-| [Ashby Jobs API](https://apify.com/conserving_celerytop/ashby-jobs-api) | Ashby board links | $0.045 per company, up to 1,000 jobs; $0.10 from October 11, 2026 |
-| [Workday Jobs API](https://apify.com/conserving_celerytop/workday-jobs-api) | Workday career site links | $0.05 per company, up to 1,000 jobs; $0.10 from October 11, 2026 |
+| [Greenhouse Jobs API](https://apify.com/conserving_celerytop/greenhouse-jobs-api) | Greenhouse board links, names or websites | $0.10 per company, up to 1,000 jobs |
+| [Lever Jobs API](https://apify.com/conserving_celerytop/lever-jobs-api) | Lever board links | $0.10 per company, up to 1,000 jobs |
+| [Ashby Jobs API](https://apify.com/conserving_celerytop/ashby-jobs-api) | Ashby board links | $0.10 per company, up to 1,000 jobs |
+| [Workday Jobs API](https://apify.com/conserving_celerytop/workday-jobs-api) | Workday career site links | $0.10 per company, up to 1,000 jobs; descriptions $0.01 per 200 jobs |
 
 ```bash
 curl -X POST "https://api.apify.com/v2/acts/conserving_celerytop~greenhouse-jobs-api/run-sync-get-dataset-items?maxTotalChargeUsd=0.30" \
@@ -74,6 +75,8 @@ curl -X POST "https://api.apify.com/v2/acts/conserving_celerytop~greenhouse-jobs
 ```
 
 Swap `greenhouse-jobs-api` for `lever-jobs-api`, `ashby-jobs-api` or `workday-jobs-api`, with links from that board.
+
+These four cost $0.09 per company on the Scale plan and $0.07 on Business.
 
 ---
 
